@@ -8,5 +8,5 @@
 ### Usage
 
 ```console
-kustomizer dir
+kustomizer input_dir output_dir
 ```
