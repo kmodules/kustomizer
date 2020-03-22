@@ -26,6 +26,8 @@ github.com/google/uuid
 github.com/googleapis/gnostic/OpenAPIv2
 github.com/googleapis/gnostic/compiler
 github.com/googleapis/gnostic/extensions
+# github.com/iancoleman/orderedmap v0.0.0-20190318233801-ac98e3ecb4b0
+github.com/iancoleman/orderedmap
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
 # github.com/json-iterator/go v1.1.8
@@ -52,8 +54,8 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# gomodules.xyz/jsonpatch/v2 v2.1.0
-gomodules.xyz/jsonpatch/v2
+# gomodules.xyz/jsonpatch/v3 v3.0.0
+gomodules.xyz/jsonpatch/v3
 # gopkg.in/inf.v0 v0.9.1
 gopkg.in/inf.v0
 # gopkg.in/yaml.v2 v2.2.4
