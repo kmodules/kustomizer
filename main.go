@@ -29,7 +29,7 @@ import (
 
 	ioutil2 "github.com/appscode/go/ioutil"
 	"github.com/spf13/cobra"
-	"gomodules.xyz/jsonpatch/v2"
+	"gomodules.xyz/jsonpatch/v3"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -49,7 +49,11 @@ type Variable struct {
 	Fork bool   `json:"fork,omitempty"`
 }
 
-type Kustomizer []Variable
+type Profile []Variable
+
+type Kustomizer struct {
+	Profiles map[string]Profile `json:"profiles"`
+}
 
 func main() {
 	var rootCmd = &cobra.Command{
@@ -67,16 +71,24 @@ func main() {
 			if err != nil {
 				return err
 			}
-			data, err := ioutil.ReadFile(filepath.Join(rootDir, "kustomizer.json"))
+			data, err := ioutil.ReadFile(filepath.Join(rootDir, "kustomizer.yaml"))
 			if err != nil {
 				return err
 			}
 			var cfg Kustomizer
-			err = json.Unmarshal(data, &cfg)
+			err = yaml2.Unmarshal(data, &cfg)
 			if err != nil {
 				return err
 			}
-			return ProcessDir(rootDir, "", dstDir, cfg)
+
+			for profile, v := range cfg.Profiles {
+				fmt.Println("processing profile", profile)
+				err = ProcessDir(rootDir, "", dstDir, v)
+				if err != nil {
+					return err
+				}
+			}
+			return nil
 		},
 	}
 	rootCmd.Flags().AddGoFlagSet(flag.CommandLine)
