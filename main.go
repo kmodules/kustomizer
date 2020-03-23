@@ -167,7 +167,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 		return err
 	}
 	if len(srcCfg.Bases) == 0 {
-		return ioutil2.CopyDir(dstDir, filepath.Join(rootDir, xBase))
+		return ioutil2.CopyDir(dstDir, filepath.Join(rootDir, xBase), ioutil2.IgnoreDestination())
 	} else if len(srcCfg.Bases) > 1 {
 		return fmt.Errorf("%s has more than one bases", srcKustomization)
 	}
