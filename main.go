@@ -27,7 +27,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	ioutil2 "github.com/appscode/go/ioutil"
+	ioutil2 "gomodules.xyz/x/ioutil"
 	"github.com/spf13/cobra"
 	"gomodules.xyz/jsonpatch/v3"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -421,8 +421,8 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 				if err != nil {
 					return err
 				}
-				targetCfg.PatchesJson6902 = append(targetCfg.PatchesJson6902, types.PatchJson6902{
-					Target: &types.PatchTarget{
+				targetCfg.PatchesJson6902 = append(targetCfg.PatchesJson6902, types.Patch{
+					Target: &types.Selector{
 						Gvk: resid.Gvk{
 							Group:   gv.Group,
 							Version: gv.Version,
