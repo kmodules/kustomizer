@@ -10,3 +10,7 @@
 ```console
 kustomizer input_dir output_dir
 ```
+
+### Examples
+
+- [Demo: multibases with a common base](https://github.com/kubernetes-sigs/kustomize/tree/master/examples/multibases)

@@ -17,31 +17,31 @@ limitations under the License.
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"kmodules.xyz/client-go/tools/parser"
+
 	"github.com/spf13/cobra"
 	"gomodules.xyz/jsonpatch/v3"
 	ioutil2 "gomodules.xyz/x/ioutil"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/strategicpatch"
-	"k8s.io/apimachinery/pkg/util/yaml"
 	"k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/kustomize/api/resid"
 	"sigs.k8s.io/kustomize/api/types"
 	yaml2 "sigs.k8s.io/yaml"
 )
+
+const kustomization_yaml = "kustomization.yaml"
 
 type Variable struct {
 	Base string `json:"base,omitempty"`
@@ -161,7 +161,7 @@ func ProcessDir(rootDir, dstBase, dstDir string, vars []Variable) error {
 
 func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error {
 	var srcCfg *types.Kustomization
-	srcKustomization := filepath.Join(rootDir, xBase, "kustomization.yaml")
+	srcKustomization := filepath.Join(rootDir, xBase, kustomization_yaml)
 	srcCfg, err := LoadKustomization(srcKustomization)
 	if err != nil {
 		return err
@@ -178,42 +178,22 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 		if err != nil {
 			return err
 		}
-		reader := yaml.NewYAMLOrJSONDecoder(bytes.NewReader(data), 2048)
-		for {
-			var obj unstructured.Unstructured
-			err := reader.Decode(&obj)
-			if err == io.EOF {
-				break
-			} else if err != nil {
-				return err
-			}
-			if obj.IsList() {
-				err := obj.EachListItem(func(item runtime.Object) error {
-					castItem := item.(*unstructured.Unstructured)
-					targetResources[ObjKey{
-						APIVersion: castItem.GetAPIVersion(),
-						Kind:       castItem.GetKind(),
-						Name:       castItem.GetName(),
-						Namespace:  castItem.GetNamespace(),
-					}] = castItem
-					return nil
-				})
-				if err != nil {
-					return err
-				}
-			} else {
-				targetResources[ObjKey{
-					APIVersion: obj.GetAPIVersion(),
-					Kind:       obj.GetKind(),
-					Name:       obj.GetName(),
-					Namespace:  obj.GetNamespace(),
-				}] = &obj
-			}
+		err = parser.ProcessResources(data, func(obj *unstructured.Unstructured) error {
+			targetResources[ObjKey{
+				APIVersion: obj.GetAPIVersion(),
+				Kind:       obj.GetKind(),
+				Name:       obj.GetName(),
+				Namespace:  obj.GetNamespace(),
+			}] = obj
+			return nil
+		})
+		if err != nil {
+			return err
 		}
 	}
 
 	baseDir := filepath.Join(rootDir, xBase, srcCfg.Bases[0])
-	baseKustomization := filepath.Join(baseDir, "kustomization.yaml")
+	baseKustomization := filepath.Join(baseDir, kustomization_yaml)
 	baseCfg, err := LoadKustomization(baseKustomization)
 	if err != nil {
 		return err
@@ -224,37 +204,17 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 		if err != nil {
 			return err
 		}
-		reader := yaml.NewYAMLOrJSONDecoder(bytes.NewReader(data), 2048)
-		for {
-			var obj unstructured.Unstructured
-			err := reader.Decode(&obj)
-			if err == io.EOF {
-				break
-			} else if err != nil {
-				return err
-			}
-			if obj.IsList() {
-				err := obj.EachListItem(func(item runtime.Object) error {
-					castItem := item.(*unstructured.Unstructured)
-					baseResources[ObjKey{
-						APIVersion: castItem.GetAPIVersion(),
-						Kind:       castItem.GetKind(),
-						Name:       castItem.GetName(),
-						Namespace:  castItem.GetNamespace(),
-					}] = castItem
-					return nil
-				})
-				if err != nil {
-					return err
-				}
-			} else {
-				baseResources[ObjKey{
-					APIVersion: obj.GetAPIVersion(),
-					Kind:       obj.GetKind(),
-					Name:       obj.GetName(),
-					Namespace:  obj.GetNamespace(),
-				}] = &obj
-			}
+		err = parser.ProcessResources(data, func(obj *unstructured.Unstructured) error {
+			baseResources[ObjKey{
+				APIVersion: obj.GetAPIVersion(),
+				Kind:       obj.GetKind(),
+				Name:       obj.GetName(),
+				Namespace:  obj.GetNamespace(),
+			}] = obj
+			return nil
+		})
+		if err != nil {
+			return err
 		}
 	}
 
@@ -462,7 +422,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 		}
 	}
 
-	targetKustomization := filepath.Join(dstDir, "kustomization.yaml")
+	targetKustomization := filepath.Join(dstDir, kustomization_yaml)
 	data, err := yaml2.Marshal(targetCfg)
 	if err != nil {
 		return err
