@@ -27,9 +27,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	ioutil2 "gomodules.xyz/x/ioutil"
 	"github.com/spf13/cobra"
 	"gomodules.xyz/jsonpatch/v3"
+	ioutil2 "gomodules.xyz/x/ioutil"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
