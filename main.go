@@ -404,35 +404,42 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 					name = fmt.Sprintf("%s-%s-patch.yaml", baseResource.GetName(), strings.ToLower(baseResource.GetKind()))
 				}
 
-				data, err := generateJsonPatch(baseResource, targetResource)
-				if err != nil {
-					return err
-				}
 				err = os.MkdirAll(dstDir, 0755)
 				if err != nil {
 					return err
 				}
-				err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0644)
-				if err != nil {
-					return err
-				}
 
-				gv, err := schema.ParseGroupVersion(objKey.APIVersion)
+				patch, err := generateJsonPatch(baseResource, targetResource)
 				if err != nil {
 					return err
 				}
-				targetCfg.PatchesJson6902 = append(targetCfg.PatchesJson6902, types.Patch{
-					Target: &types.Selector{
-						Gvk: resid.Gvk{
-							Group:   gv.Group,
-							Version: gv.Version,
-							Kind:    objKey.Kind,
+				if len(patch) > 0 {
+					data, err := yaml2.Marshal(patch)
+					if err != nil {
+						return err
+					}
+					err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0644)
+					if err != nil {
+						return err
+					}
+
+					gv, err := schema.ParseGroupVersion(objKey.APIVersion)
+					if err != nil {
+						return err
+					}
+					targetCfg.PatchesJson6902 = append(targetCfg.PatchesJson6902, types.Patch{
+						Target: &types.Selector{
+							Gvk: resid.Gvk{
+								Group:   gv.Group,
+								Version: gv.Version,
+								Kind:    objKey.Kind,
+							},
+							Namespace: objKey.Namespace,
+							Name:      objKey.Name,
 						},
-						Namespace: objKey.Namespace,
-						Name:      objKey.Name,
-					},
-					Path: name,
-				})
+						Path: name,
+					})
+				}
 			}
 		} else {
 			// add resource
@@ -493,7 +500,7 @@ func IsOfficialType(apiVersion string) bool {
 		strings.HasSuffix(gv.Group, ".k8s.io")
 }
 
-func generateJsonPatch(fromObj, toObj *unstructured.Unstructured) ([]byte, error) {
+func generateJsonPatch(fromObj, toObj *unstructured.Unstructured) ([]jsonpatch.Operation, error) {
 	fromJson, err := json.Marshal(fromObj)
 	if err != nil {
 		return nil, err
@@ -504,12 +511,7 @@ func generateJsonPatch(fromObj, toObj *unstructured.Unstructured) ([]byte, error
 		return nil, err
 	}
 
-	ops, err := jsonpatch.CreatePatch(fromJson, toJson)
-	if err != nil {
-		return nil, err
-	}
-
-	return yaml2.Marshal(ops)
+	return jsonpatch.CreatePatch(fromJson, toJson)
 }
 
 func generateStrategicMergePatch(fromObj, toObj *unstructured.Unstructured) ([]byte, error) {
