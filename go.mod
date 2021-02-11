@@ -3,6 +3,7 @@ module kmodules.xyz/kustomizer
 go 1.1
 
 require (
+	github.com/codeskyblue/go-sh v0.0.0-20200712050446-30169cf553fe
 	github.com/spf13/cobra v1.1.1
 	gomodules.xyz/jsonpatch/v3 v3.0.1
 	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331

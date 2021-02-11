@@ -23,22 +23,21 @@ import (
 	"os"
 	"path/filepath"
 
+	shell "github.com/codeskyblue/go-sh"
 	"github.com/spf13/cobra"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"sigs.k8s.io/kustomize/api/types"
-	"sigs.k8s.io/yaml"
 )
 
 func main() {
 	var rootCmd = &cobra.Command{
-		Use:   "gen input_dir",
-		Short: "Generate kustomization.yaml",
+		Use:   "build input_dir out_dir",
+		Short: "Build yamls",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if len(args) != 1 {
-				return fmt.Errorf("usage: gen input_dir")
+			if len(args) != 2 {
+				return fmt.Errorf("usage: build input_dir output_dir")
 			}
 
-			return generate(args[0])
+			return build(args[0], args[1])
 		},
 	}
 	rootCmd.Flags().AddGoFlagSet(flag.CommandLine)
@@ -47,52 +46,43 @@ func main() {
 	utilruntime.Must(rootCmd.Execute())
 }
 
-func generate(dir string) error {
-	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+func build(in, out string) error {
+	sh := shell.NewSession()
+	// sh.ShowCMD = true
+
+	return filepath.Walk(in, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 		if !info.IsDir() {
 			return nil
 		}
-		if path == dir {
+		if path == in {
+			return nil
+		}
+		if _, err := os.Stat(filepath.Join(path, "kustomization.yaml")); os.IsNotExist(err) {
 			return nil
 		}
 
 		// TODO: Detect base folder
-		rel, err := filepath.Rel(path, filepath.Join(dir, "base"))
+		rel, err := filepath.Rel(in, path)
 		if err != nil {
 			return err
 		}
 
-		entries, err := ioutil.ReadDir(path)
+		fmt.Println(path)
+
+		sh.SetDir(path)
+		data, err := sh.Command("kustomize", "build").Output()
 		if err != nil {
 			return err
 		}
 
-		var resources []string
-		for _, e := range entries {
-			if !e.IsDir() && e.Name() != "kustomization.yaml" {
-				resources = append(resources, e.Name())
-			}
-		}
-		if len(resources) == 0 {
-			return nil
-		}
-		cfg := types.Kustomization{
-			TypeMeta: types.TypeMeta{
-				APIVersion: types.KustomizationVersion,
-				Kind:       types.KustomizationKind,
-			},
-			Resources: resources,
-		}
-		if rel != "." {
-			cfg.Bases = []string{rel}
-		}
-		data, err := yaml.Marshal(cfg)
+		err = os.MkdirAll(filepath.Join(out, rel), 0755)
 		if err != nil {
 			return err
 		}
-		return ioutil.WriteFile(filepath.Join(path, "kustomization.yaml"), data, 0644)
+
+		return ioutil.WriteFile(filepath.Join(out, rel, "sample.yaml"), data, 0644)
 	})
 }
