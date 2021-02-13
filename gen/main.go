@@ -22,6 +22,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/spf13/cobra"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -76,6 +77,7 @@ func generate(dir string) error {
 				resources = append(resources, e.Name())
 			}
 		}
+		sort.Strings(resources)
 		if len(resources) == 0 {
 			return nil
 		}

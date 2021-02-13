@@ -25,6 +25,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -469,6 +470,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 		}
 	}
 
+	sort.Strings(targetCfg.Resources)
 	targetKustomization := filepath.Join(dstDir, "kustomization.yaml")
 	data, err := yaml2.Marshal(targetCfg)
 	if err != nil {
