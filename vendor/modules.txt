@@ -5,6 +5,7 @@ github.com/PuerkitoBio/urlesc
 # github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0
 github.com/codegangsta/inject
 # github.com/codeskyblue/go-sh v0.0.0-20200712050446-30169cf553fe
+## explicit
 github.com/codeskyblue/go-sh
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
@@ -54,6 +55,7 @@ github.com/modern-go/reflect2
 # github.com/pkg/errors v0.9.1
 github.com/pkg/errors
 # github.com/spf13/cobra v1.1.1
+## explicit
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.5
 github.com/spf13/pflag
@@ -71,12 +73,14 @@ golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
 # gomodules.xyz/jsonpatch/v3 v3.0.1
+## explicit
 gomodules.xyz/jsonpatch/v3
 # gomodules.xyz/orderedmap v0.1.0
 gomodules.xyz/orderedmap
 # gomodules.xyz/sets v0.0.0-20200930152147-4f4543544799
 gomodules.xyz/sets
 # gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
+## explicit
 gomodules.xyz/x/context
 gomodules.xyz/x/ioutil
 gomodules.xyz/x/log
@@ -159,6 +163,7 @@ k8s.io/api/storage/v1
 k8s.io/api/storage/v1alpha1
 k8s.io/api/storage/v1beta1
 # k8s.io/apimachinery v0.18.9
+## explicit
 k8s.io/apimachinery/pkg/api/resource
 k8s.io/apimachinery/pkg/apis/meta/v1
 k8s.io/apimachinery/pkg/apis/meta/v1/unstructured
@@ -192,14 +197,17 @@ k8s.io/apimachinery/pkg/watch
 k8s.io/apimachinery/third_party/forked/golang/json
 k8s.io/apimachinery/third_party/forked/golang/reflect
 # k8s.io/client-go v0.18.9
+## explicit
 k8s.io/client-go/kubernetes/scheme
 # k8s.io/klog v1.0.0
 k8s.io/klog
 # k8s.io/kube-openapi v0.0.0-20200410145947-61e04a5be9a6
 k8s.io/kube-openapi/pkg/util/proto
 # kmodules.xyz/client-go v0.0.0-20210213000708-f480974ce46d
+## explicit
 kmodules.xyz/client-go/tools/parser
 # sigs.k8s.io/kustomize/api v0.7.4
+## explicit
 sigs.k8s.io/kustomize/api/resid
 sigs.k8s.io/kustomize/api/types
 # sigs.k8s.io/kustomize/kyaml v0.10.9
@@ -223,4 +231,5 @@ sigs.k8s.io/kustomize/kyaml/yaml/internal/k8sgen/pkg/util/validation/field
 # sigs.k8s.io/structured-merge-diff/v3 v3.0.0
 sigs.k8s.io/structured-merge-diff/v3/value
 # sigs.k8s.io/yaml v1.2.0
+## explicit
 sigs.k8s.io/yaml
