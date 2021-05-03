@@ -434,6 +434,19 @@ func (rn *RNode) GetDataMap() map[string]string {
 	return result
 }
 
+func (rn *RNode) GetBinaryDataMap() map[string]string {
+	n, err := rn.Pipe(Lookup(BinaryDataField))
+	if err != nil {
+		return nil
+	}
+	result := map[string]string{}
+	_ = n.VisitFields(func(node *MapNode) error {
+		result[GetValue(node.Key)] = GetValue(node.Value)
+		return nil
+	})
+	return result
+}
+
 func (rn *RNode) SetDataMap(m map[string]string) {
 	if rn == nil {
 		log.Fatal("cannot set data map on nil Rnode")
@@ -445,6 +458,21 @@ func (rn *RNode) SetDataMap(m map[string]string) {
 		return
 	}
 	if err := rn.LoadMapIntoConfigMapData(m); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func (rn *RNode) SetBinaryDataMap(m map[string]string) {
+	if rn == nil {
+		log.Fatal("cannot set binaryData map on nil Rnode")
+	}
+	if err := rn.PipeE(Clear(BinaryDataField)); err != nil {
+		log.Fatal(err)
+	}
+	if len(m) == 0 {
+		return
+	}
+	if err := rn.LoadMapIntoConfigMapBinaryData(m); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -788,17 +816,18 @@ func FromMap(m map[string]interface{}) (*RNode, error) {
 	return Parse(string(c))
 }
 
-func (rn *RNode) Map() map[string]interface{} {
+func (rn *RNode) Map() (map[string]interface{}, error) {
 	if rn == nil || rn.value == nil {
-		return make(map[string]interface{})
+		return make(map[string]interface{}), nil
 	}
 	var result map[string]interface{}
 	if err := rn.value.Decode(&result); err != nil {
 		// Should not be able to create an RNode that cannot be decoded;
 		// this is an unrecoverable error.
-		log.Fatalf("failed to decode ynode: %v", err)
+		str, _ := rn.String()
+		return nil, fmt.Errorf("received error %w for the following resource:\n%s", err, str)
 	}
-	return result
+	return result, nil
 }
 
 // ConvertJSONToYamlNode parses input json string and returns equivalent yaml node
