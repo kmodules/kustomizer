@@ -227,7 +227,7 @@ $(BUILD_DIRS):
 dev: gen fmt build
 
 .PHONY: verify
-verify: verify-modules verify-gen
+verify: verify-gen verify-modules
 
 .PHONY: verify-modules
 verify-modules:
