@@ -3,13 +3,13 @@ module kmodules.xyz/kustomizer
 go 1.15
 
 require (
-	github.com/codeskyblue/go-sh v0.0.0-20200712050446-30169cf553fe
-	github.com/spf13/cobra v1.1.1
+	github.com/spf13/cobra v1.1.3
+	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/jsonpatch/v3 v3.0.1
-	gomodules.xyz/x v0.0.0-20201105065653-91c568df6331
-	k8s.io/apimachinery v0.21.0
-	k8s.io/client-go v0.21.0
-	kmodules.xyz/client-go v0.0.0-20210429233600-944c5ec810d6
+	gomodules.xyz/x v0.0.7
+	k8s.io/apimachinery v0.21.1
+	k8s.io/client-go v0.21.1
+	kmodules.xyz/client-go v0.0.0-20210809093642-1bd0a1457237
 	sigs.k8s.io/kustomize/api v0.8.5
 	sigs.k8s.io/yaml v1.2.0
 )

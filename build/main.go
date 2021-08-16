@@ -23,8 +23,8 @@ import (
 	"os"
 	"path/filepath"
 
-	shell "github.com/codeskyblue/go-sh"
 	"github.com/spf13/cobra"
+	shell "gomodules.xyz/go-sh"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 )
 
