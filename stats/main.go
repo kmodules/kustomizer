@@ -29,15 +29,18 @@ import (
 
 	"github.com/spf13/cobra"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 )
 
 type Stats struct {
-	Config string
-	Count  int
+	Config    string
+	KindCount int
+	ObjCount  int
 }
 
 var store []Stats
+var empty = struct{}{}
 
 func main() {
 	var rootCmd = &cobra.Command{
@@ -85,8 +88,10 @@ func calculate(in string) error {
 		}
 
 		count := 0
+		gks := map[schema.GroupKind]struct{}{}
 		err = parser.ProcessResources(data, func(obj *unstructured.Unstructured) error {
 			count++
+			gks[obj.GroupVersionKind().GroupKind()] = empty
 			return nil
 		})
 		if err != nil {
@@ -94,8 +99,9 @@ func calculate(in string) error {
 		}
 
 		store = append(store, Stats{
-			Config: rel,
-			Count:  count,
+			Config:    rel,
+			KindCount: len(gks),
+			ObjCount:  count,
 		})
 		return nil
 	})
@@ -104,17 +110,20 @@ func calculate(in string) error {
 	}
 
 	sort.Slice(store, func(i, j int) bool {
-		if store[i].Count == store[j].Count {
-			return store[i].Config < store[j].Config
+		if diff := store[i].KindCount - store[j].KindCount; diff != 0 {
+			return diff > 0
 		}
-		return store[i].Count > store[j].Count
+		if diff := store[i].ObjCount - store[j].ObjCount; diff != 0 {
+			return diff > 0
+		}
+		return store[i].Config > store[j].Config
 	})
 
 	// Observe how the b's and the d's, despite appearing in the
 	// second cell of each line, belong to different columns.
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.TabIndent)
 	for _, cfg := range store {
-		_, _ = fmt.Fprintf(w, "%s\t%d\n", cfg.Config, cfg.Count)
+		_, _ = fmt.Fprintf(w, "%s\t%d|%d\n", cfg.Config, cfg.KindCount, cfg.ObjCount)
 	}
 	return w.Flush()
 }
