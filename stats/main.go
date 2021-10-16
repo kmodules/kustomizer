@@ -28,7 +28,6 @@ import (
 	"kmodules.xyz/client-go/tools/parser"
 
 	"github.com/spf13/cobra"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 )
@@ -89,9 +88,9 @@ func calculate(in string) error {
 
 		count := 0
 		gks := map[schema.GroupKind]struct{}{}
-		err = parser.ProcessResources(data, func(obj *unstructured.Unstructured) error {
+		err = parser.ProcessResources(data, func(ri parser.ResourceInfo) error {
 			count++
-			gks[obj.GroupVersionKind().GroupKind()] = empty
+			gks[ri.Object.GroupVersionKind().GroupKind()] = empty
 			return nil
 		})
 		if err != nil {

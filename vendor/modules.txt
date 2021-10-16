@@ -30,7 +30,8 @@ github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/google/go-cmp v0.5.4
+# github.com/google/go-cmp v0.5.6
+## explicit
 github.com/google/go-cmp/cmp
 github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
@@ -44,7 +45,8 @@ github.com/googleapis/gnostic/extensions
 github.com/googleapis/gnostic/openapiv2
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
-# github.com/json-iterator/go v1.1.10
+# github.com/json-iterator/go v1.1.11
+## explicit
 github.com/json-iterator/go
 # github.com/mailru/easyjson v0.7.0
 github.com/mailru/easyjson/buffer
@@ -83,9 +85,9 @@ gomodules.xyz/go-sh
 gomodules.xyz/jsonpatch/v3
 # gomodules.xyz/orderedmap v0.1.0
 gomodules.xyz/orderedmap
-# gomodules.xyz/sets v0.1.0
+# gomodules.xyz/sets v0.2.0
 gomodules.xyz/sets
-# gomodules.xyz/x v0.0.7
+# gomodules.xyz/x v0.0.8
 ## explicit
 gomodules.xyz/x/ioutil
 # google.golang.org/protobuf v1.25.0
@@ -211,7 +213,7 @@ k8s.io/client-go/kubernetes/scheme
 k8s.io/klog/v2
 # k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7 => k8s.io/kube-openapi v0.0.0-20210305001622-591a79e4bda7
 k8s.io/kube-openapi/pkg/util/proto
-# kmodules.xyz/client-go v0.0.0-20210809093642-1bd0a1457237
+# kmodules.xyz/client-go v0.0.0-20211013093146-1fbfd52e78c9
 ## explicit
 kmodules.xyz/client-go/tools/parser
 # sigs.k8s.io/kustomize/api v0.8.5
@@ -280,10 +282,10 @@ sigs.k8s.io/yaml
 # google.golang.org/genproto => google.golang.org/genproto v0.0.0-20201110150050-8816d57aaa9a
 # google.golang.org/grpc => google.golang.org/grpc v1.27.1
 # gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.3.0
-# helm.sh/helm/v3 => github.com/kubepack/helm/v3 v3.1.0-rc.1.0.20210503022716-7e2d4913a125
+# helm.sh/helm/v3 => github.com/kubepack/helm/v3 v3.6.1-0.20210518225915-c3e0ce48dd1b
 # k8s.io/api => k8s.io/api v0.21.0
 # k8s.io/apimachinery => github.com/kmodules/apimachinery v0.21.1-rc.0.0.20210405112358-ad4c2289ba4c
-# k8s.io/apiserver => github.com/kmodules/apiserver v0.21.1-0.20210427013338-53dee545b83c
+# k8s.io/apiserver => github.com/kmodules/apiserver v0.21.2-0.20210716212718-83e5493ac170
 # k8s.io/cli-runtime => k8s.io/cli-runtime v0.21.0
 # k8s.io/client-go => k8s.io/client-go v0.21.0
 # k8s.io/component-base => k8s.io/component-base v0.21.0
@@ -292,3 +294,7 @@ sigs.k8s.io/yaml
 # k8s.io/utils => k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 # kmodules.xyz/resource-metadata => kmodules.xyz/resource-metadata v0.5.0
 # sigs.k8s.io/application => github.com/kmodules/application v0.8.4-0.20210427030912-90eeee3bc4ad
+# github.com/satori/go.uuid => github.com/gofrs/uuid v4.0.0+incompatible
+# github.com/dgrijalva/jwt-go => github.com/gomodules/jwt v3.2.2+incompatible
+# github.com/golang-jwt/jwt => github.com/golang-jwt/jwt v3.2.2+incompatible
+# github.com/form3tech-oss/jwt-go => github.com/form3tech-oss/jwt-go v3.2.5+incompatible
