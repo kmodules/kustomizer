@@ -31,7 +31,7 @@ import (
 )
 
 func main() {
-	var rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "gen input_dir",
 		Short: "Generate kustomization.yaml",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -95,6 +95,6 @@ func generate(dir string) error {
 		if err != nil {
 			return err
 		}
-		return ioutil.WriteFile(filepath.Join(path, "kustomization.yaml"), data, 0644)
+		return ioutil.WriteFile(filepath.Join(path, "kustomization.yaml"), data, 0o644)
 	})
 }
