@@ -57,7 +57,7 @@ type Kustomizer struct {
 }
 
 func main() {
-	var rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "kustomizer input_dir output_dir",
 		Short: "Generate json patch",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -68,7 +68,7 @@ func main() {
 			rootDir := args[0]
 			dstDir := args[1]
 
-			err := os.MkdirAll(dstDir, 0755)
+			err := os.MkdirAll(dstDir, 0o755)
 			if err != nil {
 				return err
 			}
@@ -386,11 +386,11 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 				if err != nil {
 					return err
 				}
-				err = os.MkdirAll(dstDir, 0755)
+				err = os.MkdirAll(dstDir, 0o755)
 				if err != nil {
 					return err
 				}
-				err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0644)
+				err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0o644)
 				if err != nil {
 					return err
 				}
@@ -405,7 +405,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 					name = fmt.Sprintf("%s-%s-patch.yaml", baseResource.GetName(), strings.ToLower(baseResource.GetKind()))
 				}
 
-				err = os.MkdirAll(dstDir, 0755)
+				err = os.MkdirAll(dstDir, 0o755)
 				if err != nil {
 					return err
 				}
@@ -419,7 +419,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 					if err != nil {
 						return err
 					}
-					err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0644)
+					err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0o644)
 					if err != nil {
 						return err
 					}
@@ -457,11 +457,11 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 			if err != nil {
 				return err
 			}
-			err = os.MkdirAll(dstDir, 0755)
+			err = os.MkdirAll(dstDir, 0o755)
 			if err != nil {
 				return err
 			}
-			err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0644)
+			err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0o644)
 			if err != nil {
 				return err
 			}
@@ -476,7 +476,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(targetKustomization, data, 0644)
+	return ioutil.WriteFile(targetKustomization, data, 0o644)
 }
 
 func LoadKustomization(filename string) (*types.Kustomization, error) {

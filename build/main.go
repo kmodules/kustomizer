@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-	var rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "build input_dir out_dir",
 		Short: "Build yamls",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -78,11 +78,11 @@ func build(in, out string) error {
 			return err
 		}
 
-		err = os.MkdirAll(filepath.Join(out, rel), 0755)
+		err = os.MkdirAll(filepath.Join(out, rel), 0o755)
 		if err != nil {
 			return err
 		}
 
-		return ioutil.WriteFile(filepath.Join(out, rel, "sample.yaml"), data, 0644)
+		return ioutil.WriteFile(filepath.Join(out, rel, "sample.yaml"), data, 0o644)
 	})
 }

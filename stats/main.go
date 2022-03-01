@@ -38,11 +38,13 @@ type Stats struct {
 	ObjCount  int
 }
 
-var store []Stats
-var empty = struct{}{}
+var (
+	store []Stats
+	empty = struct{}{}
+)
 
 func main() {
-	var rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "main input_dir",
 		Short: "Show number of resources for each configuration",
 		RunE: func(cmd *cobra.Command, args []string) error {
