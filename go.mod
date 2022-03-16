@@ -3,16 +3,15 @@ module kmodules.xyz/kustomizer
 go 1.15
 
 require (
-	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/json-iterator/go v1.1.11 // indirect
-	github.com/spf13/cobra v1.1.3
+	github.com/spf13/cobra v1.2.1
 	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/jsonpatch/v3 v3.0.1
-	gomodules.xyz/x v0.0.8
+	gomodules.xyz/x v0.0.10
 	k8s.io/apimachinery v0.21.1
 	k8s.io/client-go v0.21.1
-	kmodules.xyz/client-go v0.0.0-20211013093146-1fbfd52e78c9
-	sigs.k8s.io/kustomize/api v0.8.5
+	k8s.io/klog/v2 v2.9.0 // indirect
+	kmodules.xyz/client-go v0.0.0-20220215012708-9963581d69a7
+	sigs.k8s.io/kustomize/api v0.8.8
 	sigs.k8s.io/yaml v1.2.0
 )
 
@@ -108,7 +107,7 @@ replace k8s.io/api => k8s.io/api v0.21.0
 
 replace k8s.io/apimachinery => github.com/kmodules/apimachinery v0.21.1-rc.0.0.20210405112358-ad4c2289ba4c
 
-replace k8s.io/apiserver => github.com/kmodules/apiserver v0.21.2-0.20210716212718-83e5493ac170
+replace k8s.io/apiserver => github.com/kmodules/apiserver v0.21.2-0.20220112070009-e3f6e88991d9
 
 replace k8s.io/cli-runtime => k8s.io/cli-runtime v0.21.0
 
