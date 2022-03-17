@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/google/go-cmp v0.5.6 // indirect
-	github.com/json-iterator/go v1.1.11 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/spf13/cobra v1.1.3
 	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/jsonpatch/v3 v3.0.1
