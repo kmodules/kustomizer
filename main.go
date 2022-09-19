@@ -72,7 +72,7 @@ func main() {
 			if err != nil {
 				return err
 			}
-			data, err := ioutil.ReadFile(filepath.Join(rootDir, "kustomizer.yaml"))
+			data, err := os.ReadFile(filepath.Join(rootDir, "kustomizer.yaml"))
 			if err != nil {
 				return err
 			}
@@ -175,7 +175,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 	targetResources := map[ObjKey]*unstructured.Unstructured{}
 
 	for _, res := range srcCfg.Resources {
-		data, err := ioutil.ReadFile(filepath.Join(rootDir, xBase, res))
+		data, err := os.ReadFile(filepath.Join(rootDir, xBase, res))
 		if err != nil {
 			return err
 		}
@@ -221,7 +221,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 	}
 	baseResources := map[ObjKey]*unstructured.Unstructured{}
 	for _, res := range baseCfg.Resources {
-		data, err := ioutil.ReadFile(filepath.Join(baseDir, res))
+		data, err := os.ReadFile(filepath.Join(baseDir, res))
 		if err != nil {
 			return err
 		}
@@ -390,7 +390,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 				if err != nil {
 					return err
 				}
-				err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0o644)
+				err = os.WriteFile(filepath.Join(dstDir, name), data, 0o644)
 				if err != nil {
 					return err
 				}
@@ -419,7 +419,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 					if err != nil {
 						return err
 					}
-					err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0o644)
+					err = os.WriteFile(filepath.Join(dstDir, name), data, 0o644)
 					if err != nil {
 						return err
 					}
@@ -461,7 +461,7 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 			if err != nil {
 				return err
 			}
-			err = ioutil.WriteFile(filepath.Join(dstDir, name), data, 0o644)
+			err = os.WriteFile(filepath.Join(dstDir, name), data, 0o644)
 			if err != nil {
 				return err
 			}
@@ -476,11 +476,11 @@ func ProcessBaseDir(rootDir string, xBase string, dstBase, dstDir string) error 
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(targetKustomization, data, 0o644)
+	return os.WriteFile(targetKustomization, data, 0o644)
 }
 
 func LoadKustomization(filename string) (*types.Kustomization, error) {
-	data, err := ioutil.ReadFile(filename)
+	data, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
