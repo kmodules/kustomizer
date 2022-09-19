@@ -95,6 +95,6 @@ func generate(dir string) error {
 		if err != nil {
 			return err
 		}
-		return ioutil.WriteFile(filepath.Join(path, "kustomization.yaml"), data, 0o644)
+		return os.WriteFile(filepath.Join(path, "kustomization.yaml"), data, 0o644)
 	})
 }

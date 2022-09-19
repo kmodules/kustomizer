@@ -19,7 +19,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -83,6 +82,6 @@ func build(in, out string) error {
 			return err
 		}
 
-		return ioutil.WriteFile(filepath.Join(out, rel, "sample.yaml"), data, 0o644)
+		return os.WriteFile(filepath.Join(out, rel, "sample.yaml"), data, 0o644)
 	})
 }
