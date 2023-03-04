@@ -92,7 +92,7 @@ func ProcessPath(root string, fn ResourceFn) error {
 			return nil
 		}
 
-		data, err := ioutil.ReadFile(path)
+		data, err := os.ReadFile(path)
 		if err != nil {
 			return err
 		}
