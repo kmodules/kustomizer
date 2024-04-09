@@ -3,15 +3,26 @@ module kmodules.xyz/kustomizer
 go 1.15
 
 require (
+	github.com/docker/cli v24.0.9+incompatible
+	github.com/docker/docker v24.0.9+incompatible
+	github.com/golang/protobuf v1.5.4
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/spf13/cobra v1.1.3
+	go.bytebuilders.dev/audit v0.0.33
+	go.bytebuilders.dev/license-proxyserver v0.0.9
+	go.bytebuilders.dev/license-verifier v0.14.0
+	go.bytebuilders.dev/license-verifier/kubernetes v0.14.0
+	golang.org/x/net v0.23.0
 	gomodules.xyz/go-sh v0.1.0
 	gomodules.xyz/jsonpatch/v3 v3.0.1
+	gomodules.xyz/password-generator v0.2.9
 	gomodules.xyz/x v0.0.8
+	google.golang.org/protobuf v1.33.0
 	k8s.io/apimachinery v0.21.1
 	k8s.io/client-go v0.21.1
-	kmodules.xyz/client-go v0.0.0-20211013093146-1fbfd52e78c9
+	kmodules.xyz/client-go v0.29.13
+	kmodules.xyz/resource-metadata v0.18.2
 	sigs.k8s.io/kustomize/api v0.8.5
 	sigs.k8s.io/yaml v1.2.0
 )
