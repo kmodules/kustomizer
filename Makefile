@@ -218,7 +218,7 @@ lint: $(BUILD_DIRS)
 	    --env GO111MODULE=on                                    \
 	    --env GOFLAGS="-mod=vendor"                             \
 	    $(BUILD_IMAGE)                                          \
-	    golangci-lint run --enable $(ADDTL_LINTERS) --timeout=20m --exclude-files="generated.*\.go$\" --exclude-dirs-use-default
+	    golangci-lint run --enable $(ADDTL_LINTERS) --timeout=20m --skip-files="generated.*\.go$\"
 
 $(BUILD_DIRS):
 	@mkdir -p $@
